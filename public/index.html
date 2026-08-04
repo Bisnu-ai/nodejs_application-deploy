@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Server Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-color);
+      background-image: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.8s ease-out backwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .result-box {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      flex-grow: 1;
+      word-break: break-word;
+    }
+    
+    .stats-box {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    
+    .stats-box div {
+      margin-bottom: 0.25rem;
+    }
+    .stats-box span {
+      color: var(--text-muted);
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Node Dashboard</h1>
+    <p class="subtitle">Quick access to your server APIs</p>
+  </header>
+
+  <div class="grid">
+    <!-- Joke Card -->
+    <div class="card">
+      <h2>😂 Random Joke</h2>
+      <div class="result-box" id="joke-result">Click to fetch a joke!</div>
+      <button onclick="fetchData('/joke', 'joke-result', 'joke')">Get Joke</button>
+    </div>
+
+    <!-- Coinflip Card -->
+    <div class="card">
+      <h2>🪙 Coin Flip</h2>
+      <div class="result-box" id="coinflip-result">Heads or Tails?</div>
+      <button onclick="fetchData('/coinflip', 'coinflip-result', 'result')">Flip Coin</button>
+    </div>
+
+    <!-- Time Card -->
+    <div class="card">
+      <h2>🕒 Server Time</h2>
+      <div class="result-box" id="time-result">What time is it on the server?</div>
+      <button onclick="fetchData('/time', 'time-result', 'now')">Get Time</button>
+    </div>
+
+    <!-- Stats Card -->
+    <div class="card">
+      <h2>📊 Server Stats</h2>
+      <div class="result-box stats-box" id="stats-result">Check server health...</div>
+      <button onclick="fetchStats()">Get Stats</button>
+    </div>
+  </div>
+
+  <script>
+    async function fetchData(endpoint, elementId, key) {
+      const el = document.getElementById(elementId);
+      el.innerHTML = '<span style="color: var(--text-muted);">Loading...</span>';
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        el.innerHTML = data[key] || JSON.stringify(data);
+      } catch (err) {
+        el.innerHTML = `<span style="color: #ef4444;">Error fetching data</span>`;
+      }
+    }
+
+    async function fetchStats() {
+      const el = document.getElementById('stats-result');
+      el.innerHTML = '<span style="color: var(--text-muted);">Loading...</span>';
+      try {
+        const res = await fetch('/stats');
+        const data = await res.json();
+        el.innerHTML = `
+          <div><span>Uptime:</span> ${data.uptime}</div>
+          <div><span>Memory:</span> ${data.memoryUsedMB} MB</div>
+          <div><span>Node JS:</span> ${data.node}</div>
+          <div><span>PID:</span> ${data.pid}</div>
+        `;
+      } catch (err) {
+        el.innerHTML = `<span style="color: #ef4444;">Error fetching stats</span>`;
+      }
+    }
+  </script>
+</body>
+</html>

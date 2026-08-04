@@ -33,6 +33,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// ---- Serve static frontend ----
+app.use(express.static('public'));
+
 // ---- Routes ----
 app.get('/', (req, res) => {
   res.json({
