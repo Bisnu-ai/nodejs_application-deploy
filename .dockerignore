@@ -1,0 +1,60 @@
+# Dependencies (installed fresh inside the container)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Environment variables (pass these via docker run --env or compose instead)
+.env
+.env.local
+.env.*.local
+
+# Build output (rebuilt inside the container)
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+
+# Testing
+coverage/
+.nyc_output/
+test/
+tests/
+__tests__/
+*.test.js
+*.spec.js
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Docker-related
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Docs
+README.md
+CHANGELOG.md
+LICENSE
+docs/
+
+# Logs
+logs/
+*.log
+
+# CI config
+.github/
+.gitlab-ci.yml
+.travis.yml
