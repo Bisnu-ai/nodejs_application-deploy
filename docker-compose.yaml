@@ -1,5 +1,6 @@
 services:
   app:
-    build: .
+    image: bisnuai/nodejs-app:latest
     ports:
       - "8080:8080"
+    restart: unless-stopped
